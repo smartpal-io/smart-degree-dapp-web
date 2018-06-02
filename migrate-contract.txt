@@ -1,0 +1,6 @@
+migrate folders 
+build/
+contracts/
+
+and modify app.js to call 
+contract("abi").at("0xfec2...")
