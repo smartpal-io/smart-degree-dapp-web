@@ -20,17 +20,17 @@ import { default as sigUtil} from 'eth-sig-util';
 var qr = require('qr-image')
 import smart_degree_artifacts from '../../build/contracts/SmartDegree.json'
 var SmartDegree = contract(smart_degree_artifacts);
-var ipAddress = "http://localhost"
+var ipAddress = "http://86.237.175.218"
 var contractAddress
 
-const publicIp = require('public-ip');
+/*const publicIp = require('public-ip');
 
 publicIp.v4().then(ip => {
 	console.log(ip);
 	ipAddress = ip
 	//=> '46.5.21.123'
 });
-
+*/
 
 window.registerDegree = function(student) {
     var data = {
@@ -124,12 +124,9 @@ function registerDegree(data) {
         console.log("wallet used : ", web3.eth.accounts[0])
         contractInstance.addDegreeHash(degreeId,degreeHash, {gas: 140000, from: web3.eth.accounts[0]});
     }).then(function(status) {
-        $("#result").html("Degree hash added succesfully");
          var targetUrl = ipAddress+":8080/verifyEndpoint.html?registrationNumber="+data.registrationNumber+"&studentFirstname="+data.studentFirstname+
         "&studentSurname="+data.studentSurname+"&studentBirthDate="+data.studentBirthDate+"&degreeLabel="+data.degreeLabel+"&graduationDate="+data.graduationDate+"&address="+contractAddress
-
         console.log("target qrCode : " + targetUrl)
-
         var code = qr.imageSync(targetUrl, { type: 'png' });
         var base64Data = btoa(String.fromCharCode.apply(null, code));
         document.getElementById("verify-qrcode").src = 'data:image/png;base64,'+ base64Data;
@@ -151,18 +148,13 @@ function verifyDegree(data) {
         return contractInstance.verify(degreeId, degreeHash);
     }).then(function(result) {
      
-		var resultText = "This Degree "
 		var resultImg
 		
 		if(result === true){
-            resultText += "EXISTS"
 			resultImg = "valid.png"
         }else{
-            resultText += "DOESN'T EXIST"
 			resultImg = "invalid.png"
         }
-
-        $("#result").html(resultText)
 		document.getElementById("resultImg").src = resultImg
     })
 }
@@ -181,21 +173,16 @@ function verifyAndDisplayDegree(data) {
     SmartDegree.deployed().then(function(contractInstance) {
         return contractInstance.verify(degreeId, degreeHash);
     }).then(function(result) {
-		
-		var resultText = "This Degree "
+	
 		var resultImg
 		
 		console.log(result)
 		
         if(result === true){
-            resultText += "EXISTS"
 			resultImg = "valid.png"
         }else{
-            resultText += "DOESN'T EXIST"
 			resultImg = "invalid.png"
         }
-
-        $("#result").html(resultText)
         document.getElementById("resultImg").src = resultImg
 
         $("#registrationNumber").text(data.registrationNumber)
