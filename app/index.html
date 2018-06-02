@@ -14,7 +14,7 @@
   </div>
   <div class="container col-margin-top-2">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-md-8">
             <h2>Degree information</h2>
              <div class="form-horizontal">
                  <div class="form-group">
@@ -53,29 +53,20 @@
                         <input class="form-control" id="degreeLabel">
                     </div>
                 </div>
-
-
+				
                 <div class="form-group">
                     <div class="col-sm-offset-5 col-sm-10">
                         <button type="submit" onclick="registerDegree()" class="btn btn-primary">Register</button>
-                        <button type="submit" onclick="verifyDegree()" class="btn btn-primary">Verify</button>
+                        <button type="submit" onclick="verifyDegree()" class="btn btn-primary">Verify</button> <img src="" id="resultImg" height="32"/>
                     </div>
                 </div>
              </div>
         </div>
-        <div class="col-sm-6">
-            <h2>Result</h2>
-            <div class="row">
-                <div class="col-xs-6 col-sm-6">
-                    <label><div id="result"></div></label>
-					<img src="" id="resultImg" height="32"/>
-					
-                    <figure>
-                        <img src="no_image.png" id="verify-qrcode" height="300"/>
-                        <figcaption>Use this QrCode to verify the degree</figcaption>
-                    </figure>
-                </div>
-            </div>
+        <div class="col-md-4">
+            <h2>Verify with QR Code</h2>
+			<div class="col-xs-6 col-sm-6">
+				<img src="no_image.png" id="verify-qrcode" height="300"/>
+			</div>
         </div>
       </div>
     </div>
