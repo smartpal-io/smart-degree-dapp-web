@@ -18,10 +18,19 @@ import { default as sigUtil} from 'eth-sig-util';
  
 
 var qr = require('qr-image')
-import smart_degree_artifacts from '../../contractArtifacts/SmartDegree.json'
+import smart_degree_artifacts from '../../build/contracts/SmartDegree.json'
 var SmartDegree = contract(smart_degree_artifacts);
-var ipAddress = "http://192.168.1.12"
+var ipAddress = "http://localhost"
 var contractAddress
+
+const publicIp = require('public-ip');
+
+publicIp.v4().then(ip => {
+	console.log(ip);
+	ipAddress = ip
+	//=> '46.5.21.123'
+});
+
 
 window.registerDegree = function(student) {
     var data = {
