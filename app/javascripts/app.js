@@ -6,20 +6,11 @@ import { default as Web3} from 'web3';
 import { default as contract } from 'truffle-contract';
 import { default as ethUtil} from 'ethereumjs-util';
 import { default as sigUtil} from 'eth-sig-util';
-/*
- * When you compile and deploy your Voting contract,
- * truffle stores the abi and deployed address in a json
- * file in the build directory. We will use this information
- * to setup a Voting abstraction. We will use this abstraction
- * later to create an instance of the Voting contract.
- * Compare this against the index.js from our previous tutorial to see the difference
- * https://gist.github.com/maheshmurthy/f6e96d6b3fff4cd4fa7f892de8a1a1b4#file-index-js
- */
- 
 
 var qr = require('qr-image')
-import smart_degree_artifacts from '../../build/contracts/SmartDegree.json'
+import smart_degree_artifacts from '../../node_modules/smart-degree/build/contracts/SmartDegree.json'
 var SmartDegree = contract(smart_degree_artifacts);
+var contractAddress = "0xc23412b026b370775ac2f64bdf43f3ce45d6f4ed";
 var ipAddress = "http://86.237.175.218"
 var contractAddress
 
@@ -71,7 +62,7 @@ $( document ).ready(function() {
   }
   SmartDegree.setProvider(web3.currentProvider);
 
-    SmartDegree.deployed().then(function(contractInstance) {
+    SmartDegree.at(contractAddress).then(function(contractInstance) {
       contractAddress = contractInstance.address
     });
 
@@ -120,9 +111,9 @@ function registerDegree(data) {
     let degreeHash = window.web3.sha3(inputHash);
     let degreeId = window.web3.sha3(data.registrationNumber);
 
-    SmartDegree.deployed().then(function(contractInstance) {
+    SmartDegree.at(contractAddress).then(function(contractInstance) {
         console.log("wallet used : ", web3.eth.accounts[0])
-        contractInstance.addDegreeHash(degreeId,degreeHash, {gas: 140000, from: web3.eth.accounts[0]});
+        contractInstance.deliverDegree(degreeId,degreeHash, {gas: 140000, from: web3.eth.accounts[0]});
     }).then(function(status) {
          var targetUrl = ipAddress+":8080/verifyEndpoint.html?registrationNumber="+data.registrationNumber+"&studentFirstname="+data.studentFirstname+
         "&studentSurname="+data.studentSurname+"&studentBirthDate="+data.studentBirthDate+"&degreeLabel="+data.degreeLabel+"&graduationDate="+data.graduationDate+"&address="+contractAddress
@@ -144,8 +135,8 @@ function verifyDegree(data) {
     console.log(inputHash)
     console.log(degreeHash)
 
-    SmartDegree.deployed().then(function(contractInstance) {
-        return contractInstance.verify(degreeId, degreeHash);
+    SmartDegree.at(contractAddress).then(function(contractInstance) {
+        return contractInstance.isValid(degreeId, degreeHash);
     }).then(function(result) {
      
 		var resultImg
@@ -170,8 +161,8 @@ function verifyAndDisplayDegree(data) {
     console.log(inputHash)
     console.log(degreeHash)
 
-    SmartDegree.deployed().then(function(contractInstance) {
-        return contractInstance.verify(degreeId, degreeHash);
+    SmartDegree.at(contractAddress).then(function(contractInstance) {
+        return contractInstance.isValid(degreeId, degreeHash);
     }).then(function(result) {
 	
 		var resultImg
