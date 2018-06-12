@@ -33,26 +33,33 @@ publicIp.v4().then(ip => {
 */
 
 window.registerDegree = function(student) {
-    var data = {
-        registrationNumber: $("#registrationNumber").val(),
-        studentFirstname: $("#studentFirstname").val(),
-        studentSurname: $("#studentSurname").val(),
-        studentBirthDate: $("#studentBirthDate").val(),
-        graduationDate: $("#graduationDate").val(),
-        degreeLabel: $("#degreeLabel").val(),
-    };
-    registerDegree(data)
+	
+	var data = []
+	
+	if(!checkAndStore("registrationNumber", data))return;
+	if(!checkAndStore("studentFirstname", data))return;
+	if(!checkAndStore("studentSurname", data))return;
+	if(!checkAndStore("studentBirthDate", data))return;
+	if(!checkAndStore("graduationDate", data))return;
+	if(!checkAndStore("degreeLabel", data))return;
+	
+		
+	console.log(data)
+	registerDegree(data)
+	
 }
 
 window.verifyDegree = function(student) {
-    var data = {
-        registrationNumber: $("#registrationNumber").val(),
-        studentFirstname: $("#studentFirstname").val(),
-        studentSurname: $("#studentSurname").val(),
-        studentBirthDate: $("#studentBirthDate").val(),
-        graduationDate: $("#graduationDate").val(),
-        degreeLabel: $("#degreeLabel").val(),
-    };
+	
+	var data = []
+	
+	if(!checkAndStore("registrationNumber", data))return;
+	if(!checkAndStore("studentFirstname", data))return;
+	if(!checkAndStore("studentSurname", data))return;
+	if(!checkAndStore("studentBirthDate", data))return;
+	if(!checkAndStore("graduationDate", data))return;
+	if(!checkAndStore("degreeLabel", data))return;
+	
     verifyDegree(data)
 }
 
@@ -114,18 +121,18 @@ function registerDegree(data) {
 
     console.log("registerDegree")
 
-    let inputHash = data.registrationNumber.concat(data.studentFirstname).concat(data.studentSurname).concat(data.studentBirthDate).concat(data.graduationDate).concat(data.degreeLabel)
+    let inputHash = data["registrationNumber"].concat(["datastudentFirstname"]).concat(data["studentSurname"]).concat(data["studentBirthDate"]).concat(data["graduationDate"]).concat(data["degreeLabel"])
     console.log("hash input : ", inputHash);
-    console.log("registrationNumber input : ", data.registrationNumber);
+    console.log("registrationNumber input : ", data["registrationNumber"]);
     let degreeHash = window.web3.sha3(inputHash);
-    let degreeId = window.web3.sha3(data.registrationNumber);
+    let degreeId = window.web3.sha3(data["registrationNumber"]);
 
     SmartDegree.deployed().then(function(contractInstance) {
         console.log("wallet used : ", web3.eth.accounts[0])
         contractInstance.addDegreeHash(degreeId,degreeHash, {gas: 140000, from: web3.eth.accounts[0]});
     }).then(function(status) {
-         var targetUrl = ipAddress+":8080/verifyEndpoint.html?registrationNumber="+data.registrationNumber+"&studentFirstname="+data.studentFirstname+
-        "&studentSurname="+data.studentSurname+"&studentBirthDate="+data.studentBirthDate+"&degreeLabel="+data.degreeLabel+"&graduationDate="+data.graduationDate+"&address="+contractAddress
+         var targetUrl = ipAddress+":8080/verifyEndpoint.html?registrationNumber="+data["registrationNumber"]+"&studentFirstname="+data["studentFirstname"]+
+        "&studentSurname="+data["studentSurname"]+"&studentBirthDate="+data["studentBirthDate"]+"&degreeLabel="+data["degreeLabel"]+"&graduationDate="+data["graduationDate"]+"&address="+contractAddress
         console.log("target qrCode : " + targetUrl)
         var code = qr.imageSync(targetUrl, { type: 'png' });
         var base64Data = btoa(String.fromCharCode.apply(null, code));
@@ -137,9 +144,9 @@ function verifyDegree(data) {
     console.log("verifyDegree")
     console.log(data)
 
-    let inputHash = data.registrationNumber.concat(data.studentFirstname).concat(data.studentSurname).concat(data.studentBirthDate).concat(data.graduationDate).concat(data.degreeLabel)
+    let inputHash = data["registrationNumber"].concat(data["studentFirstname"]).concat(data["studentSurname"]).concat(data["studentBirthDate"]).concat(data["graduationDate"]).concat(data["degreeLabel"])
     let degreeHash = window.web3.sha3(inputHash);
-    let degreeId = window.web3.sha3(data.registrationNumber);
+    let degreeId = window.web3.sha3(data["registrationNumber"]);
 
     console.log(inputHash)
     console.log(degreeHash)
@@ -192,4 +199,11 @@ function verifyAndDisplayDegree(data) {
         $("#graduationDate").text(data.graduationDate)
         $("#degreeLabel").text(data.degreeLabel)
     })
+}
+
+function checkAndStore(label, data){
+	if($("#"+label).val() === '')
+		return false
+	data[label] = $("#"+label).val()
+	return true	
 }
