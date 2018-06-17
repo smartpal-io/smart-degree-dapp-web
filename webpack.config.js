@@ -1,7 +1,9 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
+ 
   entry: './app/javascripts/app.js',
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -13,7 +15,8 @@ module.exports = {
 		{ from: './app/index.html', to: "index.html" },
 		{ from: './app/verifyEndpoint.html', to: "verifyEndpoint.html" },
 		{from : './app/img' }
-    ])
+    ]),
+	new Dotenv()
   ],
   module: {
     rules: [
