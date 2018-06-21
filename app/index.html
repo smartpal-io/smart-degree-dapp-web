@@ -17,40 +17,41 @@
         <div class="col-md-8">
             <h2>Degree information</h2>
              <div class="form-horizontal">
+			 <form id="main-form" onsubmit="return false;">
                  <div class="form-group">
                     <label class="col-sm-2 control-label">Registration Number</label>
                     <div class="col-sm-10">
-                        <input class="form-control" id="registrationNumber" placeholder="Ex: IN2017/170912-005">
+                        <input class="form-control" type="text" id="registrationNumber" placeholder="Ex: IN2017/170912-005" required>
                     </div>
                  </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Student Firstname</label>
                     <div class="col-sm-10">
-                        <input class="form-control" id="studentFirstname">
+                        <input class="form-control" type="text" id="studentFirstname" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Student Surname</label>
                     <div class="col-sm-10">
-                        <input class="form-control" id="studentSurname">
+                        <input class="form-control" type="text" id="studentSurname" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Birth Date</label>
                     <div class="col-sm-10">
-                        <input class="form-control" type="date" id="studentBirthDate">
+                        <input class="form-control" type="date" id="studentBirthDate" required>
                     </div>
                 </div>
 				<div class="form-group">
                     <label class="col-sm-2 control-label">Graduation Date</label>
                     <div class="col-sm-10">
-                        <input class="form-control" type="date" id="graduationDate">
+                        <input class="form-control" type="date" id="graduationDate" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Degree Label</label>
                     <div class="col-sm-10">
-                        <input class="form-control" id="degreeLabel">
+                        <input class="form-control" type="text" id="degreeLabel" required>
                     </div>
                 </div>
 				
@@ -60,7 +61,9 @@
                         <button type="submit" onclick="verifyDegree()" class="btn btn-primary">Verify</button> <img src="" id="resultImg" height="32"/>
                     </div>
                 </div>
+				</form>
              </div>
+			 
         </div>
         <div class="col-md-4">
             <h2>Verify with QR Code</h2>
