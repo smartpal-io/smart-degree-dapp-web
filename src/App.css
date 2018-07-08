@@ -1,0 +1,55 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 120px;
+  padding: 10px;
+}
+
+.App-header {
+  background-color: #1D2041;
+  height: 250px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.container {
+  padding-top: 10px;
+  padding-bottom: 40px;
+  font-size: large;
+}
+
+.modal-container {
+  position: relative;
+}
+
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
+}
+
+.row {
+  margin-top: 30px;
+}
+
+label {
+  text-align: left;
+  min-width: 170px !important;
+  display: inline-block !important
+}
+
+
+input {
+  min-width: 330px !important;
+  display: inline-block !important
+}
+
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
